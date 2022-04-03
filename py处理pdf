@@ -1,0 +1,21 @@
+import  PyPDF2 #导入这个模块后面可以调用
+pdf1=open('meetingminutes.pdf','rb')#打开这个文件，并读取
+pdfreader= PyPDF2.PdfFileReader(pdf1)#检索给定 pdf1 处于的页码
+a=pdfreader.numPages
+print('总共%s页'%a)
+for i in range(0,18):#把第一页到最后一页的内容全部写到pdf.txt这个文件里面。
+    page1= pdfreader.getPage(i)
+    b=page1.extractText()
+    #print('----------%s-----------'%b)
+    b.join(b)
+    resultFile = open('pdf.txt', 'a',encoding='utf-8')
+    resultFile.write(b)
+    resultFile.close()
+print('结束了')
+
+
+'''我们要提取这个pdf里面的文字使用人工提取很费时间所以我就借助python来提取了'''
+
+
+
+
