@@ -1,0 +1,21 @@
+#py将人口和人口普查区域的数量制成表格
+import openpyxl, pprint#导入处理excel的
+print('Opening workbook...')
+wb = openpyxl.load_workbook('censuspopdata.xlsx')
+sheet = wb['Population by Census Tract']
+countyData = {}#用每个县的人口和土地填写countyData
+print('Reading rows...')
+for row in range(2, sheet.max_row+ 1):
+#电子表格中的每一行都有一个人口普查区的数据。
+    state  = sheet['B' + str(row)].value
+    county = sheet['C' + str(row)].value
+    pop    = sheet['D' + str(row)].value
+    countyData.setdefault(state, {})
+    countyData[state].setdefault(county, {'tracts': 0, 'pop': 0})
+    countyData[state][county]['tracts'] += 1
+    countyData[state][county]['pop'] += int(pop)
+print('Writing results...')
+resultFile = open('census2010.py', 'w')
+resultFile.write('allData = ' + pprint.pformat(countyData))
+resultFile.close()
+print('Done.')
